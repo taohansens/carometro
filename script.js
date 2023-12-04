@@ -31,3 +31,21 @@ function createGallery() {
 }
 
 document.addEventListener('DOMContentLoaded', createGallery);
+
+function generateImage() {
+    const galleryElement = document.getElementById('gallery');
+
+    const images = galleryElement.querySelectorAll('img');
+    const loadedImages = Array.from(images).every(img => img.complete && img.naturalHeight !== 0);
+
+    if (loadedImages) {
+        html2canvas(galleryElement).then(canvas => {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'carometro.png';
+            link.click();
+        });
+    } else {
+        console.error('Algumas imagens ainda estão carregando. Aguarde até que todas estejam carregadas antes de gerar a imagem.');
+    }
+}
